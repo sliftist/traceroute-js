@@ -1,16 +1,15 @@
-const dgram = require('dgram');
-
-const raw = require(`raw-socket`);
-const dns = require(`dns-then`);
-
 const MAX_HOPS = 64;
 const MAX_TIMEOUT_IN_MILLISECONDS = 1000;
 let port = 33434;
 
 module.exports.trace = trace;
 async function trace(destination) {
-    // Wait... to try to fix an import issue?
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 0));
+    
+    const dgram = require('dgram');
+    // There is a weird import error with raw-socket, so import everything a bit after our import
+    const raw = require(`raw-socket`);
+    const dns = require(`dns-then`);
 
     let DESTINATION_IP = await dns.lookup(destination);
 
