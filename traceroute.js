@@ -82,8 +82,6 @@ async function trace(destination) {
                 }
             }
 
-            console.log(output);
-
             if ((ip == DESTINATION_IP && tries === 3) || ttl >= MAX_HOPS) {
                 output += "\n";
                 resolve(output);
