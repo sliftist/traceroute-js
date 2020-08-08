@@ -7,7 +7,7 @@ const MAX_TIMEOUT_IN_MILLISECONDS = 1000;
 let port = 33434;
 
 module.exports.trace = trace;
-function trace(destination) {
+async function trace(destination) {
     const icmpSocket = raw.createSocket({ protocol: raw.Protocol.ICMP });
     const udpSocket = dgram.createSocket('udp4');
 
@@ -35,7 +35,7 @@ function trace(destination) {
 
     DESTINATION_IP = await dns.lookup(DESTINATION_HOST);
 
-    return new Promise(resolve => {
+    return await new Promise(resolve => {
 
         let output = "";
         output += `traceroute to ${DESTINATION_HOST} (${DESTINATION_IP}), ${MAX_HOPS} hops max, 42 byte packets\n`;
