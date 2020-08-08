@@ -1,6 +1,7 @@
 const dgram = require('dgram');
-const raw = require('raw-socket');
-const dns = require('dns-then');
+
+const raw = require(`raw-socket`);
+const dns = require(`dns-then`);
 
 const MAX_HOPS = 64;
 const MAX_TIMEOUT_IN_MILLISECONDS = 1000;
