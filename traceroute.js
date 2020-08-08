@@ -33,8 +33,9 @@ function trace(destination) {
         }
     });
 
+    DESTINATION_IP = await dns.lookup(DESTINATION_HOST);
+
     return new Promise(resolve => {
-        DESTINATION_IP = await dns.lookup(DESTINATION_HOST);
 
         let output = "";
         output += `traceroute to ${DESTINATION_HOST} (${DESTINATION_IP}), ${MAX_HOPS} hops max, 42 byte packets\n`;
