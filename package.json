@@ -15,7 +15,7 @@
   ],
   "author": "Frank Stoeckli",
   "license": "Beerware",
-  "devDependencies": {
+  "dependencies": {
     "dns-then": "^0.1.0",
     "raw-socket": "^1.6.0"
   }
