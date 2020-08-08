@@ -24,10 +24,7 @@ setImmediate(() => {
     let portNumber = parseInt(p, 16);
     if (port === portNumber) {
       try {
-        let symbolicAddress;
-        if (!NO_REVERSE_LOOKUP) {
-          symbolicAddress = await dns.reverse(ip);
-        }
+        let symbolicAddress = await dns.reverse(ip);
         handleReply(ip, symbolicAddress[0]);
       } catch (e) {
         handleReply(ip);
