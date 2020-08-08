@@ -8,32 +8,32 @@ let port = 33434;
 
 module.exports.trace = trace;
 async function trace(destination) {
-    const icmpSocket = raw.createSocket({ protocol: raw.Protocol.ICMP });
-    const udpSocket = dgram.createSocket('udp4');
-
-    let ttl = 1;
-    let tries = 0;
-
-    let startTime;
-    let timeout;
-    let previousIP;
-
-    icmpSocket.on('message', async function (buffer, ip) {
-        let p = buffer.toString('hex').substr(100, 4);
-        let portNumber = parseInt(p, 16);
-        if (port === portNumber) {
-            try {
-                let symbolicAddress = await dns.reverse(ip);
-                handleReply(ip, symbolicAddress[0]);
-            } catch (e) {
-                handleReply(ip);
-            }
-        }
-    });
-
     let DESTINATION_IP = await dns.lookup(destination);
 
     return await new Promise((resolve, reject) => {
+
+        const icmpSocket = raw.createSocket({ protocol: raw.Protocol.ICMP });
+        const udpSocket = dgram.createSocket('udp4');
+
+        let ttl = 1;
+        let tries = 0;
+
+        let startTime;
+        let timeout;
+        let previousIP;
+
+        icmpSocket.on('message', async function (buffer, ip) {
+            let p = buffer.toString('hex').substr(100, 4);
+            let portNumber = parseInt(p, 16);
+            if (port === portNumber) {
+                try {
+                    let symbolicAddress = await dns.reverse(ip);
+                    handleReply(ip, symbolicAddress[0]);
+                } catch (e) {
+                    handleReply(ip);
+                }
+            }
+        });
 
         let output = "";
         output += `traceroute to ${destination} (${DESTINATION_IP}), ${MAX_HOPS} hops max, 42 byte packets\n`;
