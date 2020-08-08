@@ -9,6 +9,9 @@ let port = 33434;
 
 module.exports.trace = trace;
 async function trace(destination) {
+    // Wait... to try to fix an import issue?
+    await new Promise(resolve => setTimeout(resolve, 100));
+
     let DESTINATION_IP = await dns.lookup(destination);
 
     const icmpSocket = raw.createSocket({ protocol: raw.Protocol.ICMP });
