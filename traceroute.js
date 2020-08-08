@@ -11,8 +11,6 @@ async function trace(destination) {
     const icmpSocket = raw.createSocket({ protocol: raw.Protocol.ICMP });
     const udpSocket = dgram.createSocket('udp4');
 
-    let DESTINATION_IP = destination;
-
     let ttl = 1;
     let tries = 0;
 
@@ -33,12 +31,12 @@ async function trace(destination) {
         }
     });
 
-    DESTINATION_IP = await dns.lookup(DESTINATION_HOST);
+    let DESTINATION_IP = await dns.lookup(destination);
 
     return await new Promise(resolve => {
 
         let output = "";
-        output += `traceroute to ${DESTINATION_HOST} (${DESTINATION_IP}), ${MAX_HOPS} hops max, 42 byte packets\n`;
+        output += `traceroute to ${destination} (${DESTINATION_IP}), ${MAX_HOPS} hops max, 42 byte packets\n`;
         udpSocket.bind(1234, () => sendPacket());
 
         function sendPacket() {
