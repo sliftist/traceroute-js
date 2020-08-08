@@ -20,8 +20,6 @@ let startTime;
 let timeout;
 let previousIP;
 
-startTrace();
-
 setImmediate(() => {
   icmpSocket.on('message', async function (buffer, ip) {
     let p = buffer.toString('hex').substr(100, 4);
@@ -40,6 +38,7 @@ setImmediate(() => {
   });
 });
 
+module.exports.startTrace = startTrace;
 async function startTrace() {
   DESTINATION_IP = await dns.lookup(DESTINATION_HOST);
   console.log(`traceroute to ${DESTINATION_HOST} (${DESTINATION_IP}), ${MAX_HOPS} hops max, 42 byte packets`);
