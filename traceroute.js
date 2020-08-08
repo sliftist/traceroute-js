@@ -33,7 +33,7 @@ async function trace(destination) {
 
     let DESTINATION_IP = await dns.lookup(destination);
 
-    return await new Promise(resolve => {
+    return await new Promise((resolve, reject) => {
 
         let output = "";
         output += `traceroute to ${destination} (${DESTINATION_IP}), ${MAX_HOPS} hops max, 42 byte packets\n`;
@@ -50,8 +50,11 @@ async function trace(destination) {
 
             udpSocket.setTTL(ttl);
             startTime = process.hrtime();
-            udpSocket.send(new Buffer(''), 0, 0, port, DESTINATION_IP, function (err) {
-                if (err) throw err;
+            udpSocket.send(Buffer.from([]), 0, 0, port, DESTINATION_IP, function (err) {
+                if (err) {
+                    reject(err);
+                    return;
+                }
                 timeout = setTimeout(handleReply, MAX_TIMEOUT_IN_MILLISECONDS);
             });
         }
@@ -78,6 +81,8 @@ async function trace(destination) {
                     output += (`* `);
                 }
             }
+
+            console.log(output);
 
             if ((ip == DESTINATION_IP && tries === 3) || ttl >= MAX_HOPS) {
                 output += "\n";
