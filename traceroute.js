@@ -7,8 +7,6 @@ const udpSocket = dgram.createSocket('udp4');
 
 const MAX_HOPS = 64;
 const MAX_TIMEOUT_IN_MILLISECONDS = 1000;
-const DESTINATION_HOST = process.argv[process.argv.length - 1];
-const NO_REVERSE_LOOKUP = process.argv[process.argv.length - 2] === '-n';
 
 let DESTINATION_IP;
 
@@ -39,7 +37,7 @@ setImmediate(() => {
 });
 
 module.exports.startTrace = startTrace;
-async function startTrace() {
+async function startTrace(DESTINATION_HOST) {
   DESTINATION_IP = await dns.lookup(DESTINATION_HOST);
   console.log(`traceroute to ${DESTINATION_HOST} (${DESTINATION_IP}), ${MAX_HOPS} hops max, 42 byte packets`);
   udpSocket.bind(1234, () => sendPacket());
