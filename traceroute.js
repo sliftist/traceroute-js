@@ -4,7 +4,7 @@ let port = 33434;
 
 module.exports.trace = trace;
 async function trace(destination) {
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
     const dgram = require('dgram');
     // There is a weird import error with raw-socket, so import everything a bit after our import
